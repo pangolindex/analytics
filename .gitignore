@@ -1,0 +1,19 @@
+# dependencies
+/node_modules
+
+# IDE
+.idea
+
+# production
+/build
+public/tradingview-chart
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# misc
+.DS_Store
+.env
+
+# mustache templates
+src/constants/index.js

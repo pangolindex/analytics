@@ -1,0 +1,244 @@
+import React, { useState, useEffect, useRef } from 'react'
+import { createChart } from 'lightweight-charts'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import { formattedNum } from '../../utils'
+import styled from 'styled-components'
+import { usePrevious } from 'react-use'
+import { Play } from 'react-feather'
+import { useDarkModeManager } from '../../contexts/LocalStorage'
+import { IconWrapper } from '..'
+
+dayjs.extend(utc)
+
+export const CHART_TYPES = {
+  BAR: 'BAR',
+  AREA: 'AREA',
+}
+
+const Wrapper = styled.div`
+  position: relative;
+`
+
+// constant height for charts
+const HEIGHT = 300
+
+const TradingViewChart = ({
+  type = CHART_TYPES.BAR,
+  data,
+  isUSD = true,
+  base,
+  baseChange,
+  field,
+  title,
+  width,
+  useWeekly = false,
+}) => {
+  // reference for DOM element to create with chart
+  const ref = useRef()
+
+  // pointer to the chart object
+  const [chartCreated, setChartCreated] = useState(false)
+
+  // parse the data and format for tradingview consumption
+  const formattedData = data?.map((entry) => {
+    return {
+      time: dayjs.unix(entry.date).utc().format('YYYY-MM-DD'),
+      value: parseFloat(entry[field]),
+    }
+  })
+
+  // adjust the scale based on the type of chart
+  const topScale = type === CHART_TYPES.AREA ? 0.32 : 0.2
+
+  const [darkMode] = useDarkModeManager()
+  const textColor = darkMode ? 'white' : 'black'
+  const previousTheme = usePrevious(darkMode)
+  const previousIsUSD = usePrevious(isUSD)
+  const previousUseWeekly = usePrevious(useWeekly)
+
+  // reset the chart when required
+  useEffect(() => {
+    if (chartCreated && (isUSD !== previousIsUSD || useWeekly !== previousUseWeekly || darkMode !== previousTheme)) {
+      // remove the tooltip element
+      let tooltip = document.getElementById('tooltip-id' + type)
+      let node = document.getElementById('test-id' + type)
+      node.removeChild(tooltip)
+      chartCreated.resize(0, 0)
+      setChartCreated()
+    }
+  }, [chartCreated, isUSD, previousIsUSD, useWeekly, previousUseWeekly, darkMode, previousTheme, type])
+
+  // if no chart created yet, create one with options and add to DOM manually
+  useEffect(() => {
+    if (!chartCreated && formattedData) {
+      const chart = createChart(ref.current, {
+        width: width,
+        height: HEIGHT,
+        layout: {
+          backgroundColor: 'transparent',
+          textColor: textColor,
+        },
+        rightPriceScale: {
+          scaleMargins: {
+            top: topScale,
+            bottom: 0,
+          },
+          borderVisible: false,
+        },
+        timeScale: {
+          borderVisible: false,
+        },
+        grid: {
+          horzLines: {
+            color: 'rgba(197, 203, 206, 0.5)',
+            visible: false,
+          },
+          vertLines: {
+            color: 'rgba(197, 203, 206, 0.5)',
+            visible: false,
+          },
+        },
+        crosshair: {
+          horzLine: {
+            visible: false,
+            labelVisible: false,
+          },
+          vertLine: {
+            visible: true,
+            style: 0,
+            width: 2,
+            color: 'rgba(32, 38, 46, 0.1)',
+            labelVisible: false,
+          },
+        },
+        localization: {
+          priceFormatter: (val) => formattedNum(val, isUSD),
+        },
+      })
+
+      const series =
+        type === CHART_TYPES.BAR
+          ? chart.addHistogramSeries({
+            color: '#E1AA00',
+            priceFormat: {
+              type: 'volume'
+            },
+            scaleMargins: {
+              top: 0.32,
+              bottom: 0
+            },
+            lineColor: '#E1AA00',
+            lineWidth: 3
+          })
+          : chart.addAreaSeries({
+            topColor: '#FFC800',
+            bottomColor: 'rgba(232, 65, 66, 0)',
+            lineColor: '#E1AA00',
+            lineWidth: 3
+          })
+
+      series.setData(formattedData)
+      const toolTip = document.createElement('div')
+      toolTip.setAttribute('id', 'tooltip-id' + type)
+      toolTip.className = darkMode ? 'three-line-legend-dark' : 'three-line-legend'
+      ref.current.appendChild(toolTip)
+      toolTip.style.display = 'block'
+      toolTip.style.fontWeight = '500'
+      toolTip.style.left = -4 + 'px'
+      toolTip.style.top = '-' + 8 + 'px'
+      toolTip.style.backgroundColor = 'transparent'
+
+      // format numbers
+      const percentChange = baseChange?.toFixed(2)
+      const formattedPercentChange = percentChange ? ((percentChange > 0 ? '+' : '') + percentChange + '%') : ''
+      const color = percentChange >= 0 ? 'green' : 'red'
+
+      // get the title of the chart
+      function setLastBarText() {
+        toolTip.innerHTML =
+          `<div style="font-size: 16px; margin: 4px 0px; color: ${textColor};">${title} ${type === CHART_TYPES.BAR && !useWeekly ? '(24hr)' : ''}</div>` +
+          `<div style="font-size: 22px; margin: 4px 0px; color:${textColor}" >` +
+          formattedNum(base ?? 0, isUSD) +
+          `<span style="margin-left: 10px; font-size: 16px; color: ${color};">${formattedPercentChange}</span>` +
+          '</div>'
+      }
+      setLastBarText()
+
+      // update the title when hovering on the chart
+      chart.subscribeCrosshairMove(function (param) {
+        if (
+          param === undefined ||
+          param.time === undefined ||
+          param.point.x < 0 ||
+          param.point.x > width ||
+          param.point.y < 0 ||
+          param.point.y > HEIGHT
+        ) {
+          setLastBarText()
+        } else {
+          const dateStr = useWeekly
+            ? dayjs(param.time.year + '-' + param.time.month + '-' + param.time.day)
+              .startOf('week')
+              .format('MMMM D, YYYY') +
+            '-' +
+            dayjs(param.time.year + '-' + param.time.month + '-' + param.time.day)
+              .endOf('week')
+              .format('MMMM D, YYYY')
+            : dayjs(param.time.year + '-' + param.time.month + '-' + param.time.day).format('MMMM D, YYYY')
+          const price = param.seriesPrices.get(series)
+
+          toolTip.innerHTML =
+            `<div style="font-size: 16px; margin: 4px 0px; color: ${textColor};">${title}</div>` +
+            `<div style="font-size: 22px; margin: 4px 0px; color: ${textColor}">` +
+            formattedNum(price, isUSD) +
+            '</div>' +
+            '<div>' +
+            dateStr +
+            '</div>'
+        }
+      })
+
+      chart.timeScale().fitContent()
+
+      setChartCreated(chart)
+    }
+  }, [
+    base,
+    baseChange,
+    isUSD,
+    chartCreated,
+    darkMode,
+    data,
+    formattedData,
+    textColor,
+    title,
+    topScale,
+    type,
+    useWeekly,
+    width,
+  ])
+
+  // responsiveness
+  useEffect(() => {
+    if (width) {
+      chartCreated && chartCreated.resize(width, HEIGHT)
+      chartCreated && chartCreated.timeScale().scrollToPosition(0)
+    }
+  }, [chartCreated, width])
+
+  return (
+    <Wrapper>
+      <div ref={ref} id={'test-id' + type} />
+      <IconWrapper>
+        <Play
+          onClick={() => {
+            chartCreated && chartCreated.timeScale().fitContent()
+          }}
+        />
+      </IconWrapper>
+    </Wrapper>
+  )
+}
+
+export default TradingViewChart

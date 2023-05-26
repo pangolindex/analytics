@@ -1,0 +1,44 @@
+{
+  "NETWORK_NAME": "Hedera Testnet",
+  "NAT_SYMBOL": "HBAR",
+  "WNAT_ADDRESS": "0x000000000000000000000000000000000040b1f0",
+  "EXPLORER": {
+    "NAME": "HashScan",
+    "BASE": "https://hashscan.io/testnet"
+  },
+  "SUBGRAPH": {
+    "NAME": "pangolin",
+    "HOST": "https://hedera-test.pangolin.network"
+  },
+  "DISPLAY_LENGTH": {
+    "SYMBOL": 9,
+    "NAME": 16
+  },
+  "SWAP_FEE_TO_LP": 0.003,
+  "LINKS": {
+    "DISCORD": "https://discord.com/invite/pangolindex",
+    "TWITTER": "https://twitter.com/Pangolin_Hedera"
+  },
+  "TOKEN_IMAGE_REPO_BASE": "https://raw.githubusercontent.com/pangolindex/tokens/main/assets/296",
+  "TOKEN_LISTS": [
+    "https://raw.githubusercontent.com/pangolindex/tokenlists/main/pangolin.tokenlist.json"
+  ],
+  "COIN_GECKO": [
+    {
+      "ID": "hedera-hashgraph",
+      "ADDRESS": "0x000000000000000000000000000000000040b1f0"
+    },
+    {
+      "ID": "pangolin-hedera",
+      "ADDRESS": "0x000000000000000000000000000000000040b1fa"
+    }
+  ],
+  "BLACKLIST": {
+    "TOKEN": [
+
+    ],
+    "PAIR": [
+
+    ]
+  }
+}

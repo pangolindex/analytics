@@ -1,0 +1,50 @@
+export const NETWORK_NAME = '{{NETWORK_NAME}}'
+export const NAT_SYMBOL = '{{NAT_SYMBOL}}'
+export const WNAT_ADDRESS = '{{WNAT_ADDRESS}}'.toLowerCase()
+export const EXPLORER_LINK_BASE = '{{{EXPLORER.BASE}}}'
+export const EXPLORER_NAME = '{{{EXPLORER.NAME}}}'
+export const SUBGRAPH_NAME = '{{{SUBGRAPH.NAME}}}'
+export const SUBGRAPH_HOST = '{{{SUBGRAPH.HOST}}}'
+export const SWAP_FEE_TO_LP = {{SWAP_FEE_TO_LP}}
+export const SYMBOL_MAX_DISPLAY_LENGTH = {{DISPLAY_LENGTH.SYMBOL}}
+export const NAME_MAX_DISPLAY_LENGTH = {{DISPLAY_LENGTH.NAME}}
+export const SOCIAL_LINK_TWITTER = '{{{LINKS.TWITTER}}}'
+export const PANGOLIN_TOKEN_IMAGE_REPO_BASE = '{{{TOKEN_IMAGE_REPO_BASE}}}'
+export const SOCIAL_LINK_DISCORD = '{{{LINKS.DISCORD}}}'
+export const SUPPORTED_TOKEN_LIST_URLS = [
+  {{#TOKEN_LISTS}}
+  '{{{.}}}',
+  {{/TOKEN_LISTS}}
+]
+export const TOKEN_BLACKLIST = [
+  {{#BLACKLIST.TOKEN}}
+  '{{.}}'.toLowerCase(),
+  {{/BLACKLIST.TOKEN}}
+]
+export const PAIR_BLACKLIST = [
+  {{#BLACKLIST.PAIR}}
+  '{{.}}'.toLowerCase(),
+  {{/BLACKLIST.PAIR}}
+]
+
+/*
+ * Mapping between address and CoinGecko coin id
+ * Using CoinGecko API: https://api.coingecko.com/api/v3/coins/list
+ */
+export const COIN_ID_MAP = {
+  {{#COIN_GECKO}}
+  ['{{ADDRESS}}'.toLowerCase()]: '{{ID}}',
+  {{/COIN_GECKO}}
+}
+
+export const timeframeOptions = {
+  WEEK: '1 week',
+  MONTH: '1 month',
+  ALL_TIME: 'All time',
+}
+export const PAIR_CHART_VIEW_OPTIONS = {
+  VOLUME: 'Volume',
+  LIQUIDITY: 'Liquidity',
+  RATE0: 'Rate 0',
+  RATE1: 'Rate 1',
+}
