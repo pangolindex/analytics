@@ -1,18 +1,11 @@
 import gql from 'graphql-tag'
-import { SUBGRAPH_NAME } from '../constants'
 
-export const SUBGRAPH_HEALTH = gql`
+export const SUBGRAPH_LATEST_BLOCK = gql`
   query health {
-    indexingStatusForCurrentVersion(subgraphName: "${SUBGRAPH_NAME}") {
-      synced
-      health
-      chains {
-        chainHeadBlock {
-          number
-        }
-        latestBlock {
-          number
-        }
+    _meta {
+      block {
+        number
+        timestamp
       }
     }
   }

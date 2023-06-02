@@ -499,7 +499,7 @@ export function Updater() {
 export function useHourlyRateData(pairAddress, timeWindow, interval = 3600) {
   const [state, { updateHourlyData }] = usePairDataContext()
   const chartData = state?.[pairAddress]?.hourlyData?.[timeWindow]
-  const [latestBlock] = useLatestBlocks()
+  const latestBlock = useLatestBlocks()
 
   useEffect(() => {
     const currentTime = dayjs.utc()

@@ -705,7 +705,7 @@ export function useTokenChartData(tokenAddress) {
 export function useTokenPriceData(tokenAddress, timeWindow, interval = 3600) {
   const [state, { updatePriceData }] = useTokenDataContext()
   const chartData = state?.[tokenAddress]?.[timeWindow]?.[interval]
-  const [latestBlock] = useLatestBlocks()
+  const latestBlock = useLatestBlocks()
 
   useEffect(() => {
     const currentTime = dayjs.utc()
