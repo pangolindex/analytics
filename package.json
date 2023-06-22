@@ -1,7 +1,7 @@
 {
   "name": "@pangolindex/analytics",
   "engines": {
-    "node": ">=16.0.0 <=16.20.0"
+    "node": ">=18.x.x <=20.x.x"
   },
   "dependencies": {
     "@pangolindex/token-lists": "1.0.2",
@@ -49,12 +49,12 @@
   },
   "scripts": {
     "generate": "node ./config/applyTemplate.js",
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "prestart": "npm run generate",
-    "build": "react-scripts build",
+    "build": "react-scripts --openssl-legacy-provider build",
     "prebuild": "npm run generate",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "test": "react-scripts --openssl-legacy-provider test",
+    "eject": "react-scripts --openssl-legacy-provider eject",
     "postinstall": "copyfiles ./node_modules/@pangolindex/tradingview-chart/** ./public/ -u 2 && copyfiles ./node_modules/@pangolindex/tradingview-chart/**/** ./public/ -u 2"
   },
   "browserslist": {
