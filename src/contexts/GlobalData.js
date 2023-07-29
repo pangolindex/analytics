@@ -451,11 +451,10 @@ const getEthPrice = async () => {
 
   const [currentPriceResult, lastDayPriceResult] = await Promise.all([currentPriceQuery, lastDayPriceQuery])
 
-  const ethPrice = parseFloat(currentPriceResult.data.bundles[0].ethPrice)
-  const ethPriceOneDay = parseFloat(lastDayPriceResult.data.bundles[0].ethPrice)
-  const priceChangeETH = (ethPrice - ethPriceOneDay) / ethPriceOneDay
+  const ethPrice = parseFloat(currentPriceResult.data.bundles[0]?.ethPrice ?? '0')
+  const ethPriceOneDay = parseFloat(lastDayPriceResult.data.bundles[0]?.ethPrice ?? '0')
 
-  return [ethPrice, ethPriceOneDay, priceChangeETH]
+  return [ethPrice, ethPriceOneDay]
 }
 
 const PAIRS_TO_FETCH = 500
@@ -602,8 +601,8 @@ export function useEthPrice() {
   useEffect(() => {
     async function checkForEthPrice() {
       if (!ethPrice) {
-        let [newPrice, oneDayPrice, priceChange] = await getEthPrice()
-        updateEthPrice(newPrice, oneDayPrice, priceChange)
+        const [newPrice, oneDayPrice] = await getEthPrice()
+        updateEthPrice(newPrice, oneDayPrice)
       }
     }
     checkForEthPrice()

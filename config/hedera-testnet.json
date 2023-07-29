@@ -1,14 +1,14 @@
 {
   "NETWORK_NAME": "Hedera Testnet",
   "NAT_SYMBOL": "HBAR",
-  "WNAT_ADDRESS": "0x000000000000000000000000000000000040b1f0",
+  "WNAT_ADDRESS": "0x000000000000000000000000000000000002690a",
   "EXPLORER": {
     "NAME": "HashScan",
     "BASE": "https://hashscan.io/testnet"
   },
   "SUBGRAPH": {
     "NAME": "pangolin",
-    "HOST": "https://hedera-test.pangolin.network"
+    "HOST": "https://graph-hedera-test.pangolin.network"
   },
   "DISPLAY_LENGTH": {
     "SYMBOL": 9,
