@@ -7,8 +7,9 @@
     "BASE": "https://hashscan.io/mainnet"
   },
   "SUBGRAPH": {
-    "NAME": "pangolin",
-    "HOST": "https://hedera-graph.pangolin.network"
+    "HOST": "https://graph-hedera-main.pangolin.network",
+    "PANGOLIN": "pangolin",
+    "BLOCKS": "blocks"
   },
   "DISPLAY_LENGTH": {
     "SYMBOL": 9,
