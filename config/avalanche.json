@@ -1,0 +1,93 @@
+{
+  "NETWORK_NAME": "Avalanche",
+  "NAT_SYMBOL": "AVAX",
+  "WNAT_ADDRESS": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
+  "EXPLORER": {
+    "NAME": "SnowTrace",
+    "BASE": "https://snowtrace.io"
+  },
+  "SUBGRAPH": {
+    "HOST": "https://graph-avalanche.pangolin.network",
+    "PANGOLIN": "avalanche/pangolin-v2",
+    "BLOCKS": "avalanche/blocks"
+  },
+  "DISPLAY_LENGTH": {
+    "SYMBOL": 9,
+    "NAME": 16
+  },
+  "SWAP_FEE_TO_LP": 0.003,
+  "LINKS": {
+    "DISCORD": "https://discord.com/invite/pangolindex",
+    "TWITTER": "https://twitter.com/pangolindex"
+  },
+  "TOKEN_IMAGE_REPO_BASE": "https://raw.githubusercontent.com/pangolindex/tokens/main/assets/43114",
+  "TOKEN_LISTS": [
+    "https://raw.githubusercontent.com/pangolindex/tokenlists/main/pangolin.tokenlist.json"
+  ],
+  "COIN_GECKO": [
+    {
+      "ID": "pangolin",
+      "ADDRESS": "0x60781c2586d68229fde47564546784ab3faca982"
+    },
+    {
+      "ID": "avalanche",
+      "ADDRESS": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
+    },
+    {
+      "ID": "usd-coin",
+      "ADDRESS": "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664"
+    },
+    {
+      "ID": "ethereum",
+      "ADDRESS": "0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab"
+    },
+    {
+      "ID": "tether",
+      "ADDRESS": "0xc7198437980c041c805a1edcba50c1ce5db95118"
+    },
+    {
+      "ID": "benqi",
+      "ADDRESS": "0x8729438eb15e2c8b576fcc6aecda6a148776c0f5"
+    },
+    {
+      "ID": "avalaunch",
+      "ADDRESS": "0xd1c3f94de7e5b45fa4edbba472491a9f4b166fc4"
+    },
+    {
+      "ID": "chainlink",
+      "ADDRESS": "0x5947bb275c521040051d82396192181b413227a3"
+    },
+    {
+      "ID": "bitcoin",
+      "ADDRESS": "0x50b7545627a5162f82a992c33b87adc75187b218"
+    },
+    {
+      "ID": "yield-yak",
+      "ADDRESS": "0x59414b3089ce2af0010e7523dea7e2b35d776ec7"
+    },
+    {
+      "ID": "rugpull-prevention",
+      "ADDRESS": "0x61ecd63e42c27415696e10864d70ecea4aa11289"
+    }
+  ],
+  "BLACKLIST": {
+    "TOKEN": [
+      "0xa47a05ed74f80fa31621612887d26df40bcf0ca9",
+      "0x97b99b4009041e948337ebca7e6ae52f9f6e633c",
+      "0x2bc8834bc217f15df898fcab896e2b3e3673faf6",
+
+      "0xf20d962a6c8f70c731bd838a3a388d7d48fa6e15",
+      "0xde3a24028580884448a5397872046a019649b084",
+      "0x408d4cd0adb7cebd1f1a1c33a0ba2098e1295bab",
+      "0xb3fe5374f67d7a22886a0ee082b2e2f9d2651651",
+      "0xba7deebbfc5fa1100fb055a87773e1e99cd3507a",
+      "0xf39f9671906d8630812f9d9863bbef5d523c84ab",
+      "0x39cf1bd5f15fb22ec3d9ff86b0727afc203427cc",
+      "0x8ce2dee54bb9921a2ae0a63dbb2df8ed88b91dd9",
+      "0x99519acb025a0e0d44c3875a4bbf03af65933627"
+    ],
+    "PAIR": [
+
+    ]
+  }
+}

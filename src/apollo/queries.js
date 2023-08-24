@@ -323,10 +323,30 @@ export const GLOBAL_CHART = gql`
 `
 
 export const GLOBAL_DATA = (block) => {
-  const queryString = ` query pangolinFactories {
+  const queryString = `query pangolinFactories {
       pangolinFactories(
-       ${block ? `block: { number: ${block}}` : ``} 
-       where: { id: "1" }) {
+        ${block ? `block: { number: ${block}}` : ``} 
+        where: { id: "1" }
+      ) {
+        id
+        totalVolumeUSD
+        totalVolumeETH
+        untrackedVolumeUSD
+        totalLiquidityUSD
+        totalLiquidityETH
+        txCount
+        pairCount
+      }
+    }`
+  return gql(queryString)
+}
+
+export const GLOBAL_DATA_AVALANCHE = (block) => {
+  const queryString = `query factories {
+      factories(
+        ${block ? `block: { number: ${block}}` : ``} 
+        where: { id: "1" }
+      ) {
         id
         totalVolumeUSD
         totalVolumeETH

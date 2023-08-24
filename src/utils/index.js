@@ -37,23 +37,6 @@ export function getTimeframe(timeWindow) {
   return utcStartTime
 }
 
-export function getPoolLink(token0Address, token1Address = null, remove = false) {
-  if (!token1Address) {
-    return (
-      'https://app.pangolin.exchange/#/' +
-      (remove ? `remove` : `add`) +
-      `/${token0Address === WNAT_ADDRESS ? 'AVAX' : token0Address}/AVAX`
-    )
-  } else {
-    return (
-      'https://app.pangolin.exchange/#/' +
-      (remove ? `remove` : `add`) +
-      `/${token0Address === WNAT_ADDRESS ? 'AVAX' : token0Address}` +
-      `/${token1Address === WNAT_ADDRESS ? 'AVAX' : token1Address}`
-    )
-  }
-}
-
 export function getSwapLink(token0Address, token1Address = null) {
   if (!token1Address) {
     return `https://app.pangolin.exchange/#/swap?inputCurrency=${token0Address}`
