@@ -13,6 +13,7 @@ import {
 } from '../utils'
 import {
   GLOBAL_DATA,
+  GLOBAL_DATA_AVALANCHE,
   GLOBAL_TXNS,
   GLOBAL_CHART,
   ALL_PAIRS,
@@ -20,6 +21,7 @@ import {
   ETH_PRICE,
 } from '../apollo/queries'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
+import { NAT_SYMBOL } from '../constants'
 const UPDATE = 'UPDATE'
 const UPDATE_TXNS = 'UPDATE_TXNS'
 const UPDATE_CHART = 'UPDATE_CHART'
@@ -213,6 +215,14 @@ async function getGlobalData() {
   let oneDayData = {}
   let twoDayData = {}
 
+  // shims for accommodating legacy avalanche subgraph entity named 'factory' instead of 'pangolinFactory'
+  const GLOBAL_DATA_QUERY = NAT_SYMBOL === 'AVAX'
+    ? GLOBAL_DATA_AVALANCHE
+    : GLOBAL_DATA
+  const GLOBAL_DATA_KEY = NAT_SYMBOL === 'AVAX'
+    ? 'factories'
+    : 'pangolinFactories'
+
   try {
     // get timestamps for the days
     const utcCurrentTime = dayjs()
@@ -231,35 +241,35 @@ async function getGlobalData() {
 
     // fetch the global data
     let result = await client.query({
-      query: GLOBAL_DATA(),
+      query: GLOBAL_DATA_QUERY(),
       fetchPolicy: 'cache-first',
     })
-    data = result.data.pangolinFactories[0]
+    data = result.data[GLOBAL_DATA_KEY][0]
 
     // fetch the historical data
     let oneDayResult = await client.query({
-      query: GLOBAL_DATA(oneDayBlock?.number),
+      query: GLOBAL_DATA_QUERY(oneDayBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    oneDayData = oneDayResult.data.pangolinFactories[0]
+    oneDayData = oneDayResult.data[GLOBAL_DATA_KEY][0]
 
     let twoDayResult = await client.query({
-      query: GLOBAL_DATA(twoDayBlock?.number),
+      query: GLOBAL_DATA_QUERY(twoDayBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    twoDayData = twoDayResult.data.pangolinFactories[0]
+    twoDayData = twoDayResult.data[GLOBAL_DATA_KEY][0]
 
     let oneWeekResult = await client.query({
-      query: GLOBAL_DATA(oneWeekBlock?.number),
+      query: GLOBAL_DATA_QUERY(oneWeekBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    const oneWeekData = oneWeekResult.data.pangolinFactories[0]
+    const oneWeekData = oneWeekResult.data[GLOBAL_DATA_KEY][0]
 
     let twoWeekResult = await client.query({
-      query: GLOBAL_DATA(twoWeekBlock?.number),
+      query: GLOBAL_DATA_QUERY(twoWeekBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    const twoWeekData = twoWeekResult.data.pangolinFactories[0]
+    const twoWeekData = twoWeekResult.data[GLOBAL_DATA_KEY][0]
 
     if (data) {
       //if (data && oneDayData && twoDayData && twoWeekData) {
